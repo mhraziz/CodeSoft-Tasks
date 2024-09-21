@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+         body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .player {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            color: #fff;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 50px;
+            background-color: #fff;
+            color: #764ba2;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #667eea;
+            color: #fff;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        button:focus, input:focus {
+            outline: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .player {
+                width: 90%;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+
+            button {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="player">
+    <img src="logo.png">
+    <audio id="audio" >
+        <source src="music1.mp3" type="audio/mp3">
+        <source src="music2.mp3" type="audio/mp3">
+        <source src="music5.mp3" type="audio/mp3">
+        <source src="music6.mp3" type="audio/mp3">
+        <source src="music7.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <h3>Music Player</h3>
+    <button onclick="playAudio()">Play</button>
+    <button onclick="pauseAudio()">Pause</button>
+    <button onclick="stopAudio()">Stop</button>
+    <button onclick="previousTrack()">Prev</button>
+    <button onclick="nextTrack()">Next</button>
+    <br>
+    <button onclick="rewindAudio()">-10s</button>
+    <button onclick="forwardAudio()">+10s</button>
+    <br>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" oninput="setVolume(this.value)">
+</div>
+
+<script>
+    const audio = document.getElementById('audio');
+    let currentTrack = 0;
+    const tracks = [
+        'music1.mp3',
+        'music2.mp3',
+        'music5.mp3',
+        'music6.mp3',
+        'music7.mp3'
+    ];
+
+    function playAudio() {
+        audio.src = tracks[currentTrack];
+        audio.play();
+    }
+
+    function pauseAudio() {
+        audio.pause();
+    }
+
+    function stopAudio() {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    function setVolume(value) {
+        audio.volume = value;
+    }
+
+    function nextTrack() {
+        if (currentTrack < tracks.length - 1) {
+            currentTrack++;
+        } else {
+            currentTrack = 0; // Loop back to the first track
+        }
+        playAudio();
+    }
+
+    function previousTrack() {
+        if (currentTrack > 0) {
+            currentTrack--;
+        } else {
+            currentTrack = tracks.length - 1; // Loop back to the last track
+        }
+        playAudio();
+    }
+
+    function rewindAudio() {
+        // Move back by 10 seconds
+        if (audio.currentTime >= 10) {
+            audio.currentTime -= 10;
+        } else {
+            audio.currentTime = 0;
+        }
+    }
+
+    function forwardAudio() {
+        // Move ahead by 10 seconds
+        if (audio.currentTime <= audio.duration - 10) {
+            audio.currentTime += 10;
+        } else {
+            audio.currentTime = audio.duration;
+        }
+    }
+</script>
+
+</body>
+</html>
+
